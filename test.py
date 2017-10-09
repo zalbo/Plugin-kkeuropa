@@ -1,5 +1,6 @@
 import pry
 import re
+
 from Tkinter import *
 
 
@@ -73,7 +74,10 @@ def procesfile(file_gcode):
 
 
 #save the file
-        thefile = open('cube''.gcode', 'w+')
+        import os
+        filename = os.path.basename(file_gcode).replace('.gcode', '')
+        pry()
+        thefile = open(filename +'_modificato.gcode', 'w+')
         for item in content:
             thefile.write(item)
 root.mainloop()
