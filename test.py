@@ -6,29 +6,12 @@ from Tkinter import *
 
 
 from tkFileDialog import askopenfilename
-def openfile():
 
-   filename = askopenfilename(parent=root)
-   procesfile(filename)
+#open and edit file
 
-root = Tk()
-menubar = Menu(root)
-filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="Open", command=openfile)
-filemenu.add_separator()
-filemenu.add_command(label="Exit", command=root.quit)
-menubar.add_cascade(label="File", menu=filemenu)
+def procesfile():
 
-root.config(menu=menubar)
-
-
-
-
-
-
-#open file
-
-def procesfile(file_gcode):
+    file_gcode = askopenfilename(parent=root)
     with open(file_gcode) as f:
         content = f.readlines()
 
@@ -41,6 +24,7 @@ def procesfile(file_gcode):
 
         #example
         for index, val in enumerate(content):
+
             #find current_e
             match_e = re.search('E(\d+)', val)
             match_z = re.search('Z(\d+\.\d+)', val)
@@ -49,7 +33,7 @@ def procesfile(file_gcode):
 
                 current_z = match_z.group(1)
 
-                #cerca l'index da inserire il codice
+            #cerca l'index da inserire il codice
             if match_e:
                 current_e = int(match_e.group(1))
                 if current_e % target_e == 0 and last_current_e != current_e:
@@ -61,7 +45,7 @@ def procesfile(file_gcode):
 
 
 
-                    #cerca la linea dell'array content e inserisce dove deve inserire
+                        #cerca la linea dell'array content e inserisce dove deve inserire
 
         for index, val in enumerate(content):
             for line_correct_to_insert in array_index:
@@ -80,4 +64,19 @@ def procesfile(file_gcode):
         thefile = open(filename +'_modificato.gcode', 'w+')
         for item in content:
             thefile.write(item)
+
+root = Tk()
+menubar = Menu(root)
+filemenu = Menu(menubar, tearoff=0)
+filemenu.add_command(label="Exit", command=root.quit)
+menubar.add_cascade(label="File", menu=filemenu)
+Label(root, text="X Station").grid(row=0)
+
+e1 = Entry(root)
+e1.get()
+
+e1.grid(row=0, column=1)
+Button(root, text='EDIT GCODE', command=procesfile).grid(row=3, column=0, sticky=W, pady=4)
+
+root.config(menu=menubar)
 root.mainloop()
