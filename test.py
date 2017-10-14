@@ -6,6 +6,23 @@ from Tkinter import *
 import tkMessageBox
 from tkFileDialog import askopenfilename
 
+#read file_set
+
+file_set = open("file_set.txt","r+")
+
+
+#insert 6 value
+with file_set as f:
+    content_file_set = f.readlines()
+
+    store_e_reload = re.findall('e_reload(\d+\.\d+)', content_file_set[0])[0]
+    store_e_retraction = re.findall('e_retraction(\d+\.\d+)', content_file_set[1])[0]
+    store_e_vel_retraction = re.findall('e_vel_retraction(\d+\.\d+)', content_file_set[2])[0]
+    store_x_station = re.findall('x_station(\d+\.\d+)', content_file_set[3])[0]
+    store_y_station = re.findall('y_station(\d+\.\d+)', content_file_set[4])[0]
+    store_z_station = re.findall('z_station(\d+\.\d+)', content_file_set[5])[0]
+
+
 
 root = Tk()
 # Create single line text entry box
@@ -14,26 +31,33 @@ Label(root, text="RICARICA PIPPO",font=("Helvetica", 30),fg="red").pack()
 e_reload_label = Label(root, text="STEP RICARICA ESTRUSORE").pack()
 e_reload_field_text = Entry(root)
 e_reload_field_text.pack()
+e_reload_field_text.insert(0, store_e_reload)
+
 
 e_retraction_label = Label(root, text="GIRI DURANTE LA RICARICA").pack()
 e_retraction_field_text = Entry(root)
 e_retraction_field_text.pack()
+e_retraction_field_text.insert(0, store_e_retraction)
 
 e_vel_retraction_label = Label(root, text="VELOCITA' GIRI DURANTE LA RICARICA").pack()
 e_vel_retraction_field_text = Entry(root)
 e_vel_retraction_field_text.pack()
+e_vel_retraction_field_text.insert(0, store_e_vel_retraction)
 
 x_station_label = Label(root, text="POSIZIONE STAZIONE X").pack()
 x_station_field_text = Entry(root)
 x_station_field_text.pack()
+x_station_field_text.insert(0, store_x_station)
 
 y_station_label = Label(root, text="POSIZIONE STAZIONE Y").pack()
 y_station_field_text = Entry(root)
 y_station_field_text.pack()
+y_station_field_text.insert(0, store_y_station)
 
 z_station_label = Label(root, text="POSIZIONE STAZIONE Z").pack()
 z_station_field_text = Entry(root)
 z_station_field_text.pack()
+z_station_field_text.insert(0, store_z_station)
 
 
 
@@ -106,7 +130,10 @@ def procesfile():
     else:
         tkMessageBox.showinfo("Attenzione!!!", "Non stai caricando un file .gcode")
 
-
+    #edit file_set
+    file_set = open("file_set.txt","r+")
+    content_file_set= "e_reload" + e_reload + "\ne_retraction" + e_retraction + "\ne_vel_retraction" + e_vel_retraction + "\nx_station" + x_station + "\ny_station" + y_station + "\nz_station" + z_station
+    file_set.write(content_file_set)
 # Print the contents of entry widget to console
 
 
