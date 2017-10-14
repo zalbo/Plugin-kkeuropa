@@ -8,8 +8,19 @@ from tkFileDialog import askopenfilename
 
 root = Tk()
 # Create single line text entry box
+Label(root, text="KK EUROPA",font=("Helvetica", 30),fg="red").pack()
+
+x_station_label = Label(root, text="POSIZIONE STAZIONE X").pack()
 x_station_field_text = Entry(root)
 x_station_field_text.pack()
+
+y_station_label = Label(root, text="POSIZIONE STAZIONE Y").pack()
+y_station_field_text = Entry(root)
+y_station_field_text.pack()
+
+z_station_label = Label(root, text="POSIZIONE STAZIONE Z").pack()
+z_station_field_text = Entry(root)
+z_station_field_text.pack()
 
 
 
@@ -20,6 +31,8 @@ x_station_field_text.pack()
 
 def procesfile():
     x_station = (x_station_field_text.get())
+    y_station = (y_station_field_text.get())
+    z_station = (z_station_field_text.get())
 
 
     file_gcode = askopenfilename(parent=root)
