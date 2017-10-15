@@ -1,6 +1,10 @@
+#coding: utf8 
+
+
 import pry
 import re
-import sys
+
+
 
 from Tkinter import *
 import tkMessageBox
@@ -59,11 +63,6 @@ z_station_field_text = Entry(root)
 z_station_field_text.pack()
 z_station_field_text.insert(0, store_z_station)
 
-
-
-
-
-
 #open and edit file
 
 def procesfile():
@@ -74,6 +73,23 @@ def procesfile():
     y_station = (y_station_field_text.get())
     z_station = (z_station_field_text.get())
 
+
+    try:
+       e_reload = str(float(e_reload))
+    except ValueError:
+       tkMessageBox.showinfo("Attenzione!!!", "Step ricarica estrusore non è un numero")
+
+
+
+    e_reload = str(float(e_reload))
+    e_retraction = str(float(e_retraction))
+    e_vel_retraction = str(float(e_vel_retraction))
+    x_station = str(float(x_station))
+    y_station = str(float(y_station))
+    z_station = str(float(z_station))
+
+
+
     file_gcode = askopenfilename(parent=root)
     if file_gcode.endswith('.gcode'):
         with open(file_gcode) as f:
@@ -81,7 +97,6 @@ def procesfile():
 
 
             array_index = []
-            pry()
             target_e = float(e_reload)
             last_current_e = 0
 
@@ -89,7 +104,6 @@ def procesfile():
 
             #example
             for index, val in enumerate(content):
-
                 #find current_e
                 match_e = re.search('E(\d+)', val)
                 match_z = re.search('Z(\d+\.\d+)', val)
@@ -103,6 +117,7 @@ def procesfile():
                     current_e = int(match_e.group(1))
 
                     if current_e % target_e == 0 and last_current_e != current_e:
+                        print "insert here>>> " + val
                         current_e_precise = re.findall('E(\d+\.\d+)', val)[0]
                         current_x = re.findall('X(\d+\.\d+)', val)[0]
                         current_y = re.findall('Y(\d+\.\d+)', val)[0]
